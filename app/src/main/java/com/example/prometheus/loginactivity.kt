@@ -1,5 +1,6 @@
 package com.example.prometheus
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +13,7 @@ class loginactivity : AppCompatActivity() {
     lateinit var emailInput : EditText
     lateinit var passwordInput : EditText
     lateinit var loginButton : Button
+    lateinit var db: DBHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,12 +26,16 @@ class loginactivity : AppCompatActivity() {
         emailInput=findViewById(R.id.Email_input)
         passwordInput = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_button)
+        db = DBHelper(this)
 
         loginButton.setOnClickListener {
             val password = passwordInput.text.toString()
             val email = emailInput.text.toString()
-
-
+            val checklog: Boolean = db.checklogin(email,password)
+            if(checklog==true) {
+                val intent = Intent(this, home::class.java)
+                startActivity(intent)
+            }
         }
 
     }

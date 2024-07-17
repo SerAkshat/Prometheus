@@ -42,10 +42,16 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 val checkUser: Boolean = db.checkemail(email)
-                if(checkUser == false){
-                    db.insertData(email,password)}
+                if(checkUser == false) {
+                    val checkinsert: Boolean = db.insertData(email, password)
+                    if(checkinsert==true){
 
+                        val intent = Intent(this, home::class.java)
+                        startActivity(intent)
+                    }
+                }
             }
+
         }
 
         alreadyUserButton.setOnClickListener {
