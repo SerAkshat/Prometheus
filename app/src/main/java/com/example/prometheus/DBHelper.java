@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.service.autofill.UserData;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -25,10 +26,11 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(MyDB);
     }
 
-    public boolean insertData(String email, String password) {
+    public boolean insertData(String name, String email, String password) {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("email", email);
+        contentValues.put("name", name);
         contentValues.put("password", password);
         long result = MyDB.insert("users", null, contentValues);
         return result != -1;
@@ -48,5 +50,15 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
+    }
+
+    public String getUserData(String email) {
+        UserData userData = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{email});
+            int nameColumnIndex = cursor.getColumnIndex("name");
+                String name = cursor.getString(nameColumnIndex);
+        cursor.close();
+        return name;
     }
 }

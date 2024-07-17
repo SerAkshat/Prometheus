@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val checkUser = db.checkemail(email)
                 if (!checkUser) {
-                    val checkInsert = db.insertData(email, password)
+                    val checkInsert = db.insertData(username, email, password)
                     if (checkInsert) {
                         Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, home::class.java)
