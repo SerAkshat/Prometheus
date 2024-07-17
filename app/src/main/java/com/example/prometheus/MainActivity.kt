@@ -8,8 +8,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,26 +35,28 @@ class MainActivity : AppCompatActivity() {
             val password = passwordInput.text.toString()
             val email = emailInput.text.toString()
             Log.i("Credentials", "Email : $email and Username : $username and Password : $password")
-            if (email == "" || password == "" || username == "") {
+            if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                 Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                val checkUser: Boolean = db.checkemail(email)
-                if(checkUser == false) {
-                    val checkinsert: Boolean = db.insertData(email, password)
-                    if(checkinsert==true){
-
+            } else {
+                val checkUser = db.checkemail(email)
+                if (!checkUser) {
+                    val checkInsert = db.insertData(email, password)
+                    if (checkInsert) {
+                        Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, home::class.java)
                         startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Toast.makeText(this, "User Already Exists", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
 
         alreadyUserButton.setOnClickListener {
-                val intent = Intent(this, loginactivity::class.java)
-                startActivity(intent)
+            val intent = Intent(this, loginactivity::class.java)
+            startActivity(intent)
             }
         }
 
