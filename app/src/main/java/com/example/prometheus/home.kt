@@ -24,7 +24,6 @@ class home : AppCompatActivity() {
         }
 
         db = DBHelper(this)
-        email = findViewById(R.id.user_email)
         val userEmail = intent.getStringExtra("user_email")
         email.text = "Welcome, $userEmail!"
         val userData = db.getUserData(userEmail ?: "")

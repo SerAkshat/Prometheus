@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                     if (checkInsert) {
                         Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, home::class.java)
+                        intent.putExtra("user_email", email)
                         startActivity(intent)
                     } else {
                         Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT).show()
