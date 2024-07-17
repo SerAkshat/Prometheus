@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,12 +31,21 @@ class MainActivity : AppCompatActivity() {
         signupButton = findViewById(R.id.Signup_button)
         db = DBHelper(this)
 
-        signupButton.setOnClickListener{
+        signupButton.setOnClickListener {
 
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
             val email = emailInput.text.toString()
             Log.i("Credentials", "Email : $email and Username : $username and Password : $password")
+            if (email == "" || password == "" || username == "") {
+                Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val checkUser: Boolean = db.checkemail(email)
+                if(checkUser == false){
+                    db.insertData(email,password)}
+
+            }
         }
 
         alreadyUserButton.setOnClickListener {
